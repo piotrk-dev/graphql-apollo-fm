@@ -13,6 +13,10 @@ const ALL_PETS = gql`
       type
       img
       createdAt
+      owner {
+        id
+        age @client
+      }
     }
   }
 `;
