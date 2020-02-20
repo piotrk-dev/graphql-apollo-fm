@@ -1,3 +1,5 @@
+const BigInt = require("apollo-type-bigint").default;
+
 module.exports = {
   Query: {
     pets(_, {input}, {models}) {
@@ -16,6 +18,7 @@ module.exports = {
       return pet
     }
   },
+  BigInt: new BigInt("bigInt"),
   Pet: {
     owner(pet, _, {models}) {
       return models.User.findOne({id: pet.user})

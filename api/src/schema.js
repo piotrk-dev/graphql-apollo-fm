@@ -1,10 +1,13 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
-  enum PetType {
-    CAT
-    DOG
-  }
+
+scalar BigInt
+
+enum PetType {
+  CAT
+  DOG
+}
 
 type User {
   id: ID!
@@ -18,7 +21,7 @@ type Pet {
   name: String!
   owner: User!
   img: String!
-  createdAt: Int!
+  createdAt: BigInt!
 }
 
 input NewPetInput {
