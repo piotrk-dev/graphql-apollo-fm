@@ -31,6 +31,7 @@ const ALL_PETS = gql`
         id
         age @client
       }
+      __typename
     }
   }
 `;
@@ -43,6 +44,10 @@ const CREATE_A_PET = gql`
       type
       img
       createdAt
+      owner {
+        id
+        age @client
+      }
       __typename
     }
   }
