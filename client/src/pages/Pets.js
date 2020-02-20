@@ -5,6 +5,20 @@ import PetsList from '../components/PetsList'
 import NewPetModal from '../components/NewPetModal'
 import Loader from '../components/Loader'
 
+const PETS_FIELDS = gql`
+  fragment PetsFields on Pet {
+    id
+    name
+    type
+    img
+    createdAt
+    owner {
+      id
+      age @client
+    }
+  }
+`
+
 const ALL_PETS = gql`
   query AllPets {
     pets {
@@ -54,6 +68,8 @@ export default function Pets () {
   if (error || newPet.error) {
     return <p>error!</p>
   }
+
+  console.log("dddd", data.pets);
 
   const onSubmit = input => {
     setModal(false);
