@@ -24,6 +24,7 @@ const CREATE_A_PET = gql`
       name
       type
       img
+      createdAt
     }
   }
 `;
@@ -31,7 +32,15 @@ const CREATE_A_PET = gql`
 export default function Pets () {
   const [modal, setModal] = useState(false);
   const { data, loading, error } = useQuery(ALL_PETS);
-  const [createPet, newPet] = useMutation(CREATE_A_PET)
+  const [createPet, newPet] = useMutation(CREATE_A_PET, {
+    update(cache, { data: { addPet } }) {
+      const data = cache.readQuery({ query: ALL_PETS });
+      cache.writeQuery({
+        query: ALL_PETS,
+        data: { pets: [addPet, ...data.pets] }
+      })
+    }
+  })
 
   if (loading || newPet.loading) {
     return <Loader />
