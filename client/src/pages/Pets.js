@@ -25,6 +25,7 @@ const CREATE_A_PET = gql`
       type
       img
       createdAt
+      __typename
     }
   }
 `;
@@ -39,10 +40,10 @@ export default function Pets () {
         query: ALL_PETS,
         data: { pets: [addPet, ...data.pets] }
       })
-    }
+    },
   })
 
-  if (loading || newPet.loading) {
+  if (loading) {
     return <Loader />
   }
 
@@ -52,7 +53,18 @@ export default function Pets () {
 
   const onSubmit = input => {
     setModal(false);
-    createPet({variables: { newPet: input }});
+    createPet({
+      variables: { newPet: input },     
+      optimisticResponse: {
+      __typename: "Mutation",
+      addPet: {
+        __typename: "Pet",
+        id: Math.floor(Math.random() * 1000),
+        img: 'https://via.placeholder.com/300',
+        createdAt: new Date().getTime(),
+        ...input
+      }
+    }});
   }
   
   if (modal) {
